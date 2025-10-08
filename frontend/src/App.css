@@ -1,0 +1,87 @@
+/* frontend/src/App.css */
+#root {
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* --- Layout หลัก (มีผลทั้งสองสถานะ) --- */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  transition: all 0.5s ease-in-out; /* << เพิ่ม animation ตอนเปลี่ยน layout */
+}
+
+/* --- 1. สไตล์สำหรับหน้าจอเริ่มต้น (จัดกลางจอ) --- */
+.container.initial {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 4rem); /* คำนวณความสูงเต็มจอ - padding */
+}
+
+.container.initial .header {
+  margin-bottom: 0;
+}
+
+/* --- 2. สไตล์สำหรับหน้าจอหลังโหลดกราฟแล้ว (จัดชิดบน) --- */
+.container.loaded {
+  justify-content: flex-start;
+  align-items: initial;
+}
+
+/* --- 3. ขยายขนาดตัวอักษรและปุ่ม --- */
+.header h1 {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 3.5em; /* << ใหญ่ขึ้น */
+  margin-bottom: 2rem;
+}
+
+.upload-area {
+  margin-bottom: 2rem;
+}
+
+.upload-area input[type="file"] {
+  display: none;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 1.2rem 3rem; /* << ใหญ่ขึ้น */
+  font-size: 1.5rem; /* << ใหญ่ขึ้น */
+  font-weight: 700; /* << หนาขึ้น */
+  color: #fff;
+  background-color: var(--color-purple);
+  border-radius: 12px; /* << มนขึ้น */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(179, 136, 235, 0.4);
+}
+
+.file-input-label:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(179, 136, 235, 0.6);
+}
+
+/* ... (สไตล์ส่วน .controls และ .chart-area เหมือนเดิม) ... */
+.controls {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;
+  padding: 1rem; background-color: var(--bg-light); border-radius: 8px;
+  margin-bottom: 2rem; border: 1px solid var(--border-color);
+}
+.control-toggle label {
+  padding: 0.5rem 1rem; background-color: var(--border-color); color: var(--text-secondary);
+  border-radius: 6px; cursor: pointer; transition: all 0.2s ease-in-out; font-weight: 500;
+}
+.control-toggle input:checked + label {
+  background-color: var(--color-blue); color: white;
+  box-shadow: 0 0 10px rgba(128, 147, 241, 0.5);
+}
+.chart-area {
+  border: 1px solid var(--border-color); background-color: var(--bg-light);
+  border-radius: 8px; padding: 1.5rem;
+}

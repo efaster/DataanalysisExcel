@@ -1,0 +1,30 @@
+:root {
+  /* --- New Synthwave Pastel Theme --- */
+  --bg-dark: #1a1a2e; /* A dark navy/purple background */
+  --bg-light: #242444;
+  --border-color: #4a4a70;
+  --text-primary: #e0e0ff;
+  --text-secondary: #a0a0c0;
+
+  /* Your chosen palette */
+  --color-pink-light: #fdc5f5;
+  --color-pink-vibrant: #f7aef8;
+  --color-purple: #b388eb;
+  --color-blue: #8093f1;
+  --color-cyan: #72ddf7;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
+}
+
+/* --- เพิ่มเข้ามา --- */
+#root {
+  width: 100%;
+}
