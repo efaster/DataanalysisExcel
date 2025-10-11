@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import CrosshairPlugin from 'chartjs-plugin-crosshair';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin, CrosshairPlugin);
 
-const MainChart = ({ chartData }) => {
+const MainChart = forwardRef(({ chartData, theme }, ref) => {
   if (!chartData || !chartData.datasets) {
     return null;
   }
+
+  const isDark = theme === 'dark';
+  const primaryTextColor = isDark ? '#e0e0ff' : '#1f1f1f';
+  const secondaryTextColor = isDark ? '#a0a0c0' : '#595959';
+  const crosshairColor = isDark ? 'rgba(224, 224, 255, 0.6)' : 'rgba(100, 100, 100, 0.6)';
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     plugins: {
-      legend: { labels: { color: '#e0e0ff' } },
-      title: { display: true, text: 'Price Chart', color: '#e0e0ff', font: { size: 18 } },
+      legend: { 
+        labels: { 
+          color: primaryTextColor
+        } 
+      },
+      title: { 
+        display: true, 
+        text: 'Price Chart', 
+        color: primaryTextColor,
+        font: { size: 18 } 
+      },
       zoom: {
         pan: { enabled: true, mode: 'x' },
         zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' }
@@ -29,21 +44,38 @@ const MainChart = ({ chartData }) => {
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              // --- แก้ไขบรรทัดนี้ ---
               label += Number(context.parsed.y).toFixed(3);
             }
             return label;
           }
         }
+      },
+      crosshair: {
+        line: {
+          color: crosshairColor,
+          width: 1,
+          dashPattern: [5, 5]
+        },
+        sync: {
+          enabled: true
+        },
+        zoom: {
+          enabled: false
+        }
       }
     },
     scales: {
-      x: { ticks: { color: '#e0e0ff' }, grid: { color: 'var(--border-color)' } },
+      x: { 
+        ticks: { 
+          color: secondaryTextColor,
+          maxTicksLimit: 12 
+        }, 
+        grid: { color: 'var(--border-color)' } 
+      },
       y: { 
         ticks: { 
-          color: '#e0e0ff',
+          color: secondaryTextColor,
           callback: function(value) {
-            // --- แก้ไขบรรทัดนี้ ---
             return Number(value).toFixed(3);
           }
         }, 
@@ -54,9 +86,9 @@ const MainChart = ({ chartData }) => {
 
   return (
     <div style={{ height: '450px' }}>
-      <Line options={options} data={chartData} />
+      <Line ref={ref} options={options} data={chartData} />
     </div>
   );
-};
+});
 
 export default MainChart;

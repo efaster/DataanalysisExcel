@@ -1,20 +1,40 @@
 import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import CrosshairPlugin from 'chartjs-plugin-crosshair';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, CrosshairPlugin);
 
-const IndicatorChart = ({ chartData, title }) => {
+const IndicatorChart = ({ chartData, title, theme }) => {
   if (!chartData || !chartData.datasets) {
     return null;
   }
 
+  const isDark = theme === 'dark';
+  const primaryTextColor = isDark ? '#e0e0ff' : '#1f1f1f';
+  const secondaryTextColor = isDark ? '#a0a0c0' : '#595959';
+  const crosshairColor = isDark ? 'rgba(224, 224, 255, 0.6)' : 'rgba(100, 100, 100, 0.6)';
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false
+    },
     plugins: {
-      legend: { display: true, labels: { color: '#e0e0ff' } },
-      title: { display: true, text: title, color: '#e0e0ff', font: { size: 16 } },
+      legend: { 
+        display: true, 
+        labels: { 
+          color: primaryTextColor
+        } 
+      },
+      title: { 
+        display: true, 
+        text: title, 
+        color: primaryTextColor,
+        font: { size: 16 } 
+      },
       tooltip: {
         callbacks: {
           label: function(context) {
@@ -23,21 +43,37 @@ const IndicatorChart = ({ chartData, title }) => {
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              // --- แก้ไขบรรทัดนี้ ---
               label += Number(context.parsed.y).toFixed(3);
             }
             return label;
           }
         }
+      },
+      crosshair: {
+        line: {
+          color: crosshairColor,
+          width: 1,
+          dashPattern: [5, 5]
+        },
+        sync: {
+          enabled: true
+        },
+        zoom: {
+          enabled: false
+        }
       }
     },
     scales: {
-      x: { ticks: { display: false }, grid: { color: 'var(--border-color)' } },
+      x: { 
+        ticks: { 
+          display: false 
+        }, 
+        grid: { color: 'var(--border-color)' } 
+      },
       y: { 
         ticks: { 
-          color: '#e0e0ff',
+          color: secondaryTextColor,
           callback: function(value) {
-            // --- แก้ไขบรรทัดนี้ ---
             return Number(value).toFixed(3);
           }
         }, 
