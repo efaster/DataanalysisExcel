@@ -70,7 +70,6 @@ function App() {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${apiUrl}/api/upload`, formData);
-      setRawData(response.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to process the file.');
     } finally {

@@ -8,7 +8,7 @@ const ti = require('technicalindicators');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const corsOptions = {
-  origin: 'prochartvisualizer.netlify.app', 
+  origin: 'https://prochartvisualizer.netlify.app', 
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
