@@ -68,7 +68,8 @@ function App() {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axios.post('http://localhost:3001/api/upload', formData);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await axios.post(`${apiUrl}/api/upload`, formData);
       setRawData(response.data);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to process the file.');

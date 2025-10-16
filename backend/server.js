@@ -6,8 +6,12 @@ const fs = require('fs');
 const ti = require('technicalindicators');
 
 const app = express();
-const PORT = 3001;
-app.use(cors());
+const PORT = process.env.PORT || 3001;
+const corsOptions = {
+  origin: '*', 
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)){ fs.mkdirSync(uploadDir); }
